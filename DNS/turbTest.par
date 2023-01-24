@@ -1,0 +1,31 @@
+[GENERAL]
+polynomialOrder = 7
+
+stopAt = endTime
+endTime = 1.8
+dt = 1e-5
+timeStepper = tombo2
+subCyclingSteps = 0
+
+writeControl = runTime
+writeInterval = 0.05
+
+[MESH]
+solver = none
+file = "turbTest_long.re2"
+
+connectivityTol = 0.02
+
+[PRESSURE]
+residualTol = 1e-04
+
+[VELOCITY]
+boundaryTypeMap = inlet, outlet, wall
+viscosity = -7.147e5
+density = 1.0
+residualTol = 1e-06
+
+[CASEDATA]
+r_pipe = 0.01475                # pipe radius
+q_inflow = 6.835e-4             # inlet flow rate
+# q_initial = 6.835e-4          # for initial condition - not currently used
