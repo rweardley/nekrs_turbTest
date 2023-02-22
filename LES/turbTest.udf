@@ -1,0 +1,60 @@
+//
+// nekRS User Defined File
+//
+#include "udf.hpp"
+
+static dfloat R_PIPE;
+static dfloat Q_INFLOW;
+static dfloat Q_INITIAL;
+static dfloat P_OUTLET;
+static dfloat C_X0;
+static dfloat C_Y0;
+static dfloat PI;
+
+void UDF_ExecuteStep(nrs_t *nrs, dfloat time, int tstep)
+{
+}
+
+void UDF_LoadKernels(occa::properties& kernelInfo)
+{
+	kernelInfo["defines/rPipe"]		= R_PIPE;
+	kernelInfo["defines/qInflow"]	= Q_INFLOW;
+	kernelInfo["defines/pOutlet"]	= P_OUTLET;
+	kernelInfo["defines/c_x0"]		= C_X0;
+	kernelInfo["defines/c_y0"]		= C_Y0;
+	kernelInfo["defines/pi"]		= PI;
+}
+
+void UDF_Setup0(MPI_Comm comm, setupAide &options)
+{
+	platform->par->extract("casedata","r_pipe",R_PIPE);
+	platform->par->extract("casedata","q_inflow",Q_INFLOW);
+	platform->par->extract("casedata","p_outlet",P_OUTLET);
+	C_X0 = 0.;
+	C_Y0 = 0.;
+	PI = 3.14159265359;
+}
+
+void UDF_Setup(nrs_t* nrs)
+
+{
+// set initial conditions (velocity and pressure):   not currently used
+/*
+	mesh_t* mesh = nrs->meshV;
+	int num_quadrature_points = mesh->Np * mesh->Nelements;
+
+	for (int n = 0; n < num_quadrature_points; n++) {
+		float x = mesh->x[n];
+		float y = mesh->y[n];
+		float z = mesh->z[n];
+
+		nrs->U[n + 0 * nrs->fieldOffset] = 0;
+		nrs->U[n + 1 * nrs->fieldOffset] = 0;
+		// nrs->U[n + 2 * nrs->fieldOffset] = -1.0e-15;
+
+		nrs->U[n + 2 * nrs->fieldOffset] = -((2*Q_INITIAL)/(PI*R_PIPE*R_PIPE))*(1 - (( ((x-C_X0)*(x-C_X0))+((y-C_Y0)*(y-C_Y0)) )/(R_PIPE*R_PIPE)));	// calculate parabolic inflow profile
+
+		nrs->P[n + 0 * nrs->fieldOffset] = P_OUTLET;
+	}
+*/
+}

@@ -1,0 +1,17 @@
+// Boundary conditions
+
+void velocityDirichletConditions(bcData *bc)
+{
+	bc->u = 0.0;
+	bc->v = 0.0;
+	bc->w = -((2*qInflow)/(pi*rPipe*rPipe))*(1 - (( ((bc->x-c_x0)*(bc->x-c_x0))+((bc->y-c_y0)*(bc->y-c_y0)) )/(rPipe*rPipe)));	// calculate parabolic inflow profile
+}
+
+void pressureDirichletConditions(bcData *bc)
+{
+	// Stabilized outflow (Dong et al)
+	const dfloat iU0delta = 10.0;
+	const dfloat un = bc->u*bc->nx + bc->v*bc->ny + bc->w*bc->nz;
+	const dfloat s0 = 0.5 * (1.0 - tanh(un*iU0delta)); 
+	bc->p = -0.5 * (bc->u*bc->u + bc->v*bc->v + bc->w*bc->w) * s0;
+}
